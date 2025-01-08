@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Hunt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Treasure Island</h1>
+        <p>Your mission is to find the treasure!</p>
+
+        <div id="game-area">
+            <p>You're at a crossroad. Where do you want to go?</p>
+            <button onclick="chooseRoad('left')">Left</button>
+            <button onclick="chooseRoad('right')">Right</button>
+        </div>
+        <div class="message" id="message"></div>
+        <div>
+            <button onclick="resetGame()">Reset</button>
+            <button onclick="startAgain()">Start Again</button>
+        </div>
+    </div>
+
+    <script>
+        function chooseRoad(direction) {
+            const message = document.getElementById('message');
+            if (direction === 'left') {
+                message.innerHTML = "You have come to a lake. What do you do?";
+                document.getElementById('game-area').innerHTML = `
+                    <button onclick="lakeDecision('wait')">Wait for a Boat</button>
+                    <button onclick="lakeDecision('swim')">Swim Across</button>
+                `;
+            } else if (direction === 'right') {
+                message.innerHTML = "You fall into a hole. Game Over.";
+            } else {
+                message.innerHTML = "Invalid choice. Game Over.";
+            }
+        }
+
+        function lakeDecision(option) {
+            const message = document.getElementById('message');
+            if (option === 'wait') {
+                message.innerHTML = "You arrive safely. Choose a door!";
+                document.getElementById('game-area').innerHTML = `
+                    <button onclick="chooseDoor('red')">Red</button>
+                    <button onclick="chooseDoor('yellow')">Yellow</button>
+                    <button onclick="chooseDoor('blue')">Blue</button>
+                `;
+            } else if (option === 'swim') {
+                message.innerHTML = "Attacked by trout. Game Over.";
+            } else {
+                message.innerHTML = "Invalid choice. Game Over.";
+            }
+        }
+
+        function chooseDoor(color) {
+            const message = document.getElementById('message');
+            if (color === 'red') {
+                message.innerHTML = "Burned by fire. Game Over.";
+            } else if (color === 'yellow') {
+                message.innerHTML = "You found the treasure. You win!";
+            } else if (color === 'blue') {
+                message.innerHTML = "Eaten by beasts. Game Over.";
+            } else {
+                message.innerHTML = "Invalid choice. Game Over.";
+            }
+        }
+
+        function resetGame() {
+            // Reload the entire page to reset the game.
+            window.location.reload();
+        }
+
+        function startAgain() {
+            // Reset the game to the initial state without reloading the page.
+            const gameArea = document.getElementById('game-area');
+            const message = document.getElementById('message');
+
+            gameArea.innerHTML = `
+                <p>You're at a crossroad. Where do you want to go?</p>
+                <button onclick="chooseRoad('left')">Left</button>
+                <button onclick="chooseRoad('right')">Right</button>
+            `;
+            message.innerHTML = "";
+        }
+    </script>
+</body>
+</html>
